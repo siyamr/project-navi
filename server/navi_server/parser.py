@@ -43,17 +43,13 @@ class _DraftChapter:
 
 
 def _is_rule(line: str, char: str) -> bool:
-    """
-    Checks if line is separation
-    """
+    """Check whether a line is a horizontal separator made of repeated characters."""
     stripped = line.strip()
     return len(stripped) >= 4 and set(stripped) == {char}
 
 
 def _clean_chapter_title(raw: str) -> str:
-    """
-    Clean the chapter title prefix
-    """
+    """Strip any leading chapter prefix from a raw title."""
     cleaned = raw.strip()
     match = CHAPTER_PREFIX_RE.match(cleaned)
     if match and match.group(1):
@@ -67,9 +63,7 @@ def _is_ignored_banner(text: str, game_title: str) -> bool:
 
 
 def _normalize_body(lines: list[str]) -> str:
-    """
-    Clean up the text from excessive lines and spaces.
-    """
+    """Clean up section body text by collapsing excessive blank lines and trailing spaces."""
     cleaned: list[str] = []
     blank_streak = 0
 
@@ -92,12 +86,10 @@ def _normalize_body(lines: list[str]) -> str:
 def _match_decorated_heading(
     lines: list[str], index: int, rule_char: str
 ) -> tuple[str, int] | None:
-    """
-    Decorated headline detections
-    """
+    """Detect a decorated heading wrapped in or underlined by rules."""
     total = len(lines)
 
-    # Case 1
+    # Case 1: Boxed heading (rule above and below)
     if _is_rule(lines[index], rule_char) and index + 2 < total:
         candidate = lines[index + 1].strip()
         if (
@@ -108,7 +100,7 @@ def _match_decorated_heading(
         ):
             return candidate, 3
 
-    # Case 2
+    # Case 2: Underlined heading (rule below)
     if index + 1 < total:
         candidate = lines[index].strip()
         if (
@@ -141,9 +133,7 @@ def _match_inline_section(stripped: str) -> str | None:
 
 
 def _freeze_chapters(drafts: list[_DraftChapter]) -> tuple[Chapter, ...]:
-    """
-    Filter empty chapters and fix tree for dataclasses
-    """
+    """Filter out empty chapters and sections, converting drafts into frozen dataclasses."""
     frozen_chapters: list[Chapter] = []
 
     for draft in drafts:
@@ -177,9 +167,7 @@ def parse_walkthrough(
     title: str,
     executable: str | None = None,
 ) -> GameGuide:
-    """
-    Parse the walkthrough from text to Game Guide hierarchized tree
-    """
+    """Parse raw walkthrough text into a hierarchical ``GameGuide`` tree."""
     lines = text.splitlines()
     drafts: list[_DraftChapter] = []
     current_chapter: _DraftChapter | None = None
@@ -224,7 +212,7 @@ def parse_walkthrough(
             current_section = None
             continue
 
-        # Ignore inline text before chapter
+        # Ignore body text before the first chapter
         if current_chapter is None:
             continue
 
@@ -235,7 +223,7 @@ def parse_walkthrough(
             current_chapter.sections.append(current_section)
             continue
 
-        # Create Overwiew section if no inline section text
+        # Create an Overview section if text appears before any explicit section heading
         if current_section is None:
             if not stripped:
                 continue
@@ -258,9 +246,7 @@ def parse_walkthrough_file(
     title: str,
     executable: str | None = None,
 ) -> GameGuide:
-    """
-    Read .txt file, returns the game Guide.
-    """
+    """Read a walkthrough text file and return a ``GameGuide``."""
     raw_bytes = Path(path).read_bytes()
     try:
         text = raw_bytes.decode("utf-8")

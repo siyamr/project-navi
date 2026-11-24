@@ -9,24 +9,32 @@ from navi_server.models import Chapter, GameGuide, Section
 def _build_sample_guide() -> GameGuide:
     ch1 = Chapter(
         order=1,
-        title="Forêt Kokiri",
+        title="Kokiri Forest",
         sections=(
-            Section(title="Trouver l'Épée Kokiri", content="Passez dans le tunnel au sud-ouest.", order=1),
-            Section(title="Acheter le Bouclier Mojo", content="Collectez 40 rubis dans le village.", order=2),
+            Section(
+                title="Finding the Kokiri Sword",
+                content="Crawl through the tunnel to the southwest.",
+                order=1,
+            ),
+            Section(
+                title="Buying the Deku Shield",
+                content="Collect 40 rupees around the village.",
+                order=2,
+            ),
         ),
     )
     ch2 = Chapter(
         order=2,
-        title="Arbre Mojo",
+        title="Deku Tree",
         sections=(
-            Section(title="Boss : Gohma", content="Visez son œil avec le lance-pierre.", order=1),
+            Section(title="Boss: Gohma", content="Aim at her eye with the slingshot.", order=1),
         ),
     )
     ch3 = Chapter(
         order=3,
-        title="Château d'Hyrule",
+        title="Hyrule Castle",
         sections=(
-            Section(title="Infiltration", content="Évitez les gardes dans la cour.", order=1),
+            Section(title="Infiltration", content="Avoid the guards in the courtyard.", order=1),
         ),
     )
     return GameGuide(
@@ -42,7 +50,7 @@ def test_spoiler_shield_filters_future_chapters() -> None:
     visible = guide.chapters_up_to(2)
 
     assert [ch.order for ch in visible] == [1, 2]
-    assert all(ch.title != "Château d'Hyrule" for ch in visible)
+    assert all(ch.title != "Hyrule Castle" for ch in visible)
 
 
 def test_get_chapter_returns_match_or_none() -> None:
@@ -50,12 +58,12 @@ def test_get_chapter_returns_match_or_none() -> None:
     ch2 = guide.get_chapter(2)
 
     assert ch2 is not None
-    assert ch2.title == "Arbre Mojo"
+    assert ch2.title == "Deku Tree"
     assert "Gohma" in ch2.full_text
     assert guide.get_chapter(99) is None
 
 
 def test_models_are_immutable() -> None:
-    section = Section(title="Test", content="Contenu", order=1)
+    section = Section(title="Test", content="Content", order=1)
     with pytest.raises(FrozenInstanceError):
-        section.title = "Modifié"  # type: ignore[misc]
+        section.title = "Modified"  # type: ignore[misc]
