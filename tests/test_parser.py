@@ -21,7 +21,7 @@ def test_parse_sample_file_ignores_toc_and_builds_tree() -> None:
     assert [ch.order for ch in guide.chapters] == [1, 2, 3]
     assert [ch.title for ch in guide.chapters] == [
         "Kokiri Forest",
-        "Deku Tree",
+        "Inside the Deku Tree",
         "Hyrule Castle",
     ]
 
