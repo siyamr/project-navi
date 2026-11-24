@@ -1,0 +1,38 @@
+========================================
+The Legend of Zelda: Ocarina of Time
+========================================
+Classic Walkthrough - Navi Test Fixture
+
+TABLE OF CONTENTS
+-----------------
+Chapter 1: Kokiri Forest
+Chapter 2: Inside the Deku Tree
+Chapter 3: Hyrule Castle
+
+========================================
+CHAPTER 1: Kokiri Forest
+========================================
+You start your adventure inside your treehouse in the heart of the village.
+
+--- Finding the Kokiri Sword ---
+Head to the southwest corner of the village and crawl through the small tunnel.
+Watch out for the rolling boulder patrolling the maze.
+
+--- Buying the Deku Shield ---
+Collect 40 Rupees from bushes and rooftops, then buy the shield at the Kokiri Shop.
+
+========================================
+CHAPTER 2: Inside the Deku Tree
+========================================
+--- Breaking the Central Web ---
+Climb the vines to the upper ledge and jump straight onto the spider web in the center.
+
+--- Boss: Queen Gohma ---
+Stun her eye with the Slingshot when it turns red, then strike with your sword.
+
+========================================
+CHAPTER 3: Hyrule Castle
+========================================
+Courtyard Stealth
+-----------------
+Stay behind the hedges to avoid the patrolling guards until you reach Princess Zelda.
